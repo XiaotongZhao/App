@@ -147,58 +147,7 @@ const NavigationItems = [
         ]
       }
     ]
-  }//,
-  // {
-  //   id: 'pages',
-  //   title: 'Pages',
-  //   type: 'group',
-  //   icon: 'icon-pages',
-  //   children: [
-  //     {
-  //       id: 'auth',
-  //       title: 'Authentication',
-  //       type: 'collapse',
-  //       icon: 'feather icon-lock',
-  //       children: [
-  //         {
-  //           id: 'signup',
-  //           title: 'Signup',
-  //           type: 'item',
-  //           url: '/auth/signup',
-  //           target: true,
-  //           breadcrumbs: false
-  //         },
-  //         {
-  //           id: 'signin',
-  //           title: 'Signin',
-  //           type: 'item',
-  //           url: '/auth/signin',
-  //           target: true,
-  //           breadcrumbs: false
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       id: 'disabled-menu',
-  //       title: 'Disabled Menu',
-  //       type: 'item',
-  //       url: 'javascript:',
-  //       classes: 'nav-item disabled',
-  //       icon: 'feather icon-power',
-  //       external: true
-  //     },
-  //     {
-  //       id: 'byu-now',
-  //       title: 'Buy Now',
-  //       type: 'item',
-  //       url: 'https://codedthemes.com/',
-  //       classes: 'nav-item',
-  //       icon: 'feather icon-users',
-  //       external: true,
-  //       target: true
-  //     }
-  //   ]
-  // }
+  }
 ];
 
 @Injectable()
