@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    //canActivateChild: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       {
         path: '',
@@ -51,7 +51,7 @@ const routes: Routes = [
     children: [
       {
         path: 'auth',
-        loadChildren: './demo/pages/authentication/authentication.module#AuthenticationModule'
+        loadChildren: './account/authentication/authentication.module#AuthenticationModule'
       }
     ]
   }

@@ -127,23 +127,7 @@ const NavigationItems = [
             title: 'Sample Page',
             type: 'item',
             url: '/sample-page'
-          },
-          {
-            id: 'signup',
-            title: 'Signup',
-            type: 'item',
-            url: '/auth/signup',
-            target: true,
-            breadcrumbs: false
-          },
-          {
-            id: 'signin',
-            title: 'Signin',
-            type: 'item',
-            url: '/auth/signin',
-            target: true,
-            breadcrumbs: false
-          }
+          }       
         ]
       }
     ]
