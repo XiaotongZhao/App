@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   hmr: false,
   remoteServiceBaseUrl: "https://localhost:5050",
-  tokenServiceBaseUrl: "https://localhost:5060"
+  tokenServiceBaseUrl: "http://localhost:5060" //"https://localhost:5060"
 };
 
 /*
