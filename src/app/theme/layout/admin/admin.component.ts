@@ -13,15 +13,15 @@ export class AdminComponent implements OnInit {
   public navCollapsedMob: boolean;
   public windowWidth: number;
 
-  constructor(private zone: NgZone, private location: Location) {
+  constructor(private location: Location) {
     this.dattaConfig = DattaConfig.config;
 
-    let current_url = this.location.path();
+    let currentUrl = this.location.path();
     if (this.location['_baseHref']) {
-      current_url = this.location['_baseHref'] + this.location.path();
+      currentUrl = this.location['_baseHref'] + this.location.path();
     }
 
-    if (current_url === this.location['_baseHref'] + '/layout/collapse-menu' || current_url === this.location['_baseHref'] + '/layout/box') {
+    if (currentUrl === this.location['_baseHref'] + '/layout/collapse-menu' || currentUrl === this.location['_baseHref'] + '/layout/box') {
       this.dattaConfig['collapse-menu'] = true;
     }
 

@@ -14,7 +14,8 @@ export class TestpageComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let tes = await this.menuServiceProxy.getMenuData().toPromise()
+    const test = await this.menuServiceProxy.getMenuData().toPromise();
+    console.log(test);
   }
 
 }

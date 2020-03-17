@@ -1,7 +1,7 @@
-import {Component, NgZone, OnInit, ViewEncapsulation} from '@angular/core';
-import {DattaConfig} from '../../../../app-config';
-import {Location} from '@angular/common';
-import {Router} from '@angular/router';
+import { Component, NgZone, OnInit, ViewEncapsulation } from '@angular/core';
+import { DattaConfig } from '../../../../app-config';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-configuration',
@@ -42,7 +42,7 @@ export class ConfigurationComponent implements OnInit {
   ngOnInit() {
     this.styleSelectorToggle = false;
 
-    this.layoutType =  this.dattaConfig['layout-type'];
+    this.layoutType = this.dattaConfig['layout-type'];
     this.setLayout(this.layoutType);
 
     this.isColoredIcon = this.dattaConfig['nav-icon-color'];

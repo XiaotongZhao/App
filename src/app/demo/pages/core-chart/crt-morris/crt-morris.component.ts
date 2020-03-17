@@ -167,7 +167,7 @@ export class CrtMorrisComponent implements OnInit {
         '#1dc4e9',
       ],
       resize: true,
-      formatter: function(x) {
+      formatter: function (x: string) {
         return 'val : ' + x;
       }
     };

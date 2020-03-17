@@ -42,9 +42,6 @@ export declare class HttpConfiguration {
 
 export declare class AppHttpInterceptor implements HttpInterceptor {
     protected configuration: HttpConfiguration;
-    private _tokenService;
-    private _utilsService;
-    private _logService;
     constructor(configuration: HttpConfiguration);
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>;
     protected normalizeRequestHeaders(request: HttpRequest<any>): HttpRequest<any>;
@@ -55,5 +52,4 @@ export declare class AppHttpInterceptor implements HttpInterceptor {
     protected addAuthorizationHeaders(headers: HttpHeaders): HttpHeaders;
     protected handleSuccessResponse(event: HttpEvent<any>, interceptObservable: Subject<HttpEvent<any>>): void;
     protected handleErrorResponse(error: any, interceptObservable: Subject<HttpEvent<any>>): Observable<any>;
-    private itemExists;
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/helpers/authentication.service';
 
@@ -9,11 +8,11 @@ import { AuthenticationService } from 'src/helpers/authentication.service';
   styleUrls: ['./auth-signin.component.scss']
 })
 export class AuthSigninComponent implements OnInit {
-  returnUrl: string;
   public userName: string;
   public password: string;
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService) {
     if (this.authenticationService.currentUserValue) {
@@ -22,7 +21,6 @@ export class AuthSigninComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   onSubmit() {

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './theme/shared/shared.module';
@@ -29,6 +29,47 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from 'src/helpers/jwt.interceptor';
 import { ErrorInterceptor } from 'src/helpers/error.interceptor';
 import { fakeBackendProvider } from 'src/helpers/fake-backend';
+import { PlatformLocation } from '@angular/common';
+import { AppConsts } from './shared/AppConsts';
+import { AppPreBootstrap } from './AppPreBootstrap';
+import { API_BASE_URL } from './shared/service-proxies/service-proxies';
+
+export function appInitializerFactory(
+  injector: Injector,
+  platformLocation: PlatformLocation) {
+  return () => {
+
+    return new Promise<boolean>((resolve, reject) => {
+      AppConsts.appBaseHref = getBaseHref(platformLocation);
+      const appBaseUrl = getDocumentOrigin() + AppConsts.appBaseHref;
+
+      AppPreBootstrap.run(appBaseUrl, () => {
+        resolve(true);
+      }, resolve, reject);
+    });
+  };
+}
+
+export function getBaseHref(platformLocation: PlatformLocation): string {
+  const baseUrl = platformLocation.getBaseHrefFromDOM();
+  if (baseUrl) {
+    return baseUrl;
+  }
+
+  return '/';
+}
+
+export function getRemoteServiceBaseUrl(): string {
+  return AppConsts.remoteServiceBaseUrl;
+}
+
+function getDocumentOrigin() {
+  if (!document.location.origin) {
+    return document.location.protocol + '//' + document.location.hostname + (document.location.port ? ':' + document.location.port : '');
+  }
+
+  return document.location.origin;
+}
 
 @NgModule({
   declarations: [
@@ -63,6 +104,13 @@ import { fakeBackendProvider } from 'src/helpers/fake-backend';
     ServiceProxyModule
   ],
   providers: [
+    { provide: API_BASE_URL, useFactory: getRemoteServiceBaseUrl },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFactory,
+      deps: [Injector, PlatformLocation],
+      multi: true
+    },
     NavigationItem,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

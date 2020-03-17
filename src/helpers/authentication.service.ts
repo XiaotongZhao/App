@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { User } from './models/user';
 import { map } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { AppConsts } from 'src/app/shared/AppConsts';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private apiUrl = environment.tokenServiceBaseUrl;
+    private apiUrl = AppConsts.tokenServiceBaseUrl;
     public currentUser: Observable<User>;
 
     private currentUserSubject: BehaviorSubject<User>;
