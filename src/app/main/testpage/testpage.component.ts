@@ -1,5 +1,5 @@
-import { Component, OnInit, Injectable } from '@angular/core';
-import { MenuServiceProxy } from 'src/app/shared/service-proxies/service-proxies';
+import { Component, OnInit, Injectable, ViewChild } from '@angular/core';
+import { EditorComponent } from 'src/app/theme/shared/components/editor/editor.component';
 
 @Component({
   selector: 'app-testpage',
@@ -9,13 +9,17 @@ import { MenuServiceProxy } from 'src/app/shared/service-proxies/service-proxies
 
 @Injectable()
 export class TestpageComponent implements OnInit {
+  @ViewChild('htmlContent', { static: true }) editor: EditorComponent;
 
-  constructor(private menuServiceProxy: MenuServiceProxy) {
+  constructor() {
   }
 
-  async ngOnInit() {
-    const test = await this.menuServiceProxy.getMenuData().toPromise();
-    console.log(test);
+  ngOnInit() {
+  }
+
+  test() {
+    const testText = this.editor.htmlContent;
+    console.log(testText);
   }
 
 }

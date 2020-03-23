@@ -5,6 +5,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BreadcrumbModule, CardModule} from './components';
 import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {ClickOutsideModule} from 'ng-click-outside';
+import { EditorModule } from './components/editor/editor.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -12,6 +13,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
   imports: [
+    EditorModule,
     CommonModule,
     PerfectScrollbarModule,
     FormsModule,
@@ -21,6 +23,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ClickOutsideModule
   ],
   exports: [
+    EditorModule,
     CommonModule,
     PerfectScrollbarModule,
     FormsModule,
@@ -29,7 +32,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     BreadcrumbModule,
     ClickOutsideModule
   ],
-  declarations: [],
   providers: [
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
