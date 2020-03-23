@@ -7,7 +7,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class FriendComponent implements OnInit {
   @Input() friends;
-  @Output() onChatOn = new EventEmitter();
+  @Output() chatOn = new EventEmitter();
 
   constructor() { }
 
@@ -15,7 +15,7 @@ export class FriendComponent implements OnInit {
   }
 
   public innerChatToggle(id) {
-    this.onChatOn.emit();
+    this.chatOn.emit();
   }
 
 }

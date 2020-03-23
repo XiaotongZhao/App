@@ -18,8 +18,8 @@ export class ChatUserListComponent implements OnInit {
   ngOnInit() {
   }
 
-  onChatOn(friend_id) {
-    this.onChatToggle.emit(friend_id);
+  chatOn(friendId) {
+    this.onChatToggle.emit(friendId);
   }
 
 }

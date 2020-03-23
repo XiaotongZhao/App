@@ -9,7 +9,7 @@
     <div class="main-friend-list">
       <perfect-scrollbar ngClass="datta-scroll" [style.max-width]="'350px'" [style.max-height]="'calc(100vh - 85px)'" [usePSClass]="'datta'" [disabled]="null" [autoPropagation] ="true">
         <ng-container *ngFor="let friends of friendsList">
-          <app-friend (onChatOn)="onChatOn(friends.id)" [friends]="friends"></app-friend>
+          <app-friend (chatOn)="chatOn(friends.id)" [friends]="friends"></app-friend>
         </ng-container>
       </perfect-scrollbar>
     </div>

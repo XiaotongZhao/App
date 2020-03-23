@@ -2,6 +2,7 @@ import {Component, Input, NgZone, OnInit} from '@angular/core';
 import {NavigationItem} from '../../navigation';
 import {DattaConfig} from '../../../../../../app-config';
 import {Location} from '@angular/common';
+import { AppConsts } from 'src/app/shared/AppConsts';
 
 @Component({
   selector: 'app-nav-item',
@@ -15,23 +16,23 @@ export class NavItemComponent implements OnInit {
 
   constructor(private location: Location) {
     this.dattaConfig = DattaConfig.config;
-    this.themeLayout = this.dattaConfig['layout'];
+    this.themeLayout = this.dattaConfig.layout;
   }
 
   ngOnInit() {
   }
 
   closeOtherMenu(event) {
-    if (this.dattaConfig['layout'] === 'vertical') {
+    if (this.dattaConfig.layout === 'vertical') {
       const ele = event.target;
       if (ele !== null && ele !== undefined) {
         const parent = ele.parentElement;
         const upParent = parent.parentElement.parentElement;
         const lastParent = upParent.parentElement;
         const sections = document.querySelectorAll('.pcoded-hasmenu');
-        for (let i = 0; i < sections.length; i++) {
-          sections[i].classList.remove('active');
-          sections[i].classList.remove('pcoded-trigger');
+        for (const section of sections as any) {
+          section.classList.remove('active');
+          section.classList.remove('pcoded-trigger');
         }
         if (parent.classList.contains('pcoded-hasmenu')) {
           parent.classList.add('pcoded-trigger');
@@ -50,16 +51,16 @@ export class NavItemComponent implements OnInit {
     } else {
       setTimeout(() => {
         const sections = document.querySelectorAll('.pcoded-hasmenu');
-        for (let i = 0; i < sections.length; i++) {
-          sections[i].classList.remove('active');
-          sections[i].classList.remove('pcoded-trigger');
+        for (const section of sections as any) {
+          section.classList.remove('active');
+          section.classList.remove('pcoded-trigger');
         }
 
-        let current_url = this.location.path();
-        if (this.location['_baseHref']) {
-          current_url = this.location['_baseHref'] + this.location.path();
+        let currentUrl = this.location.path();
+        if (this.location[AppConsts.baseHref]) {
+          currentUrl = this.location[AppConsts.baseHref] + this.location.path();
         }
-        const link = 'a.nav-link[ href="' + current_url + '" ]';
+        const link = 'a.nav-link[ href="' + currentUrl + '" ]';
         const ele = document.querySelector(link);
         if (ele !== null && ele !== undefined) {
           const parent = ele.parentElement;

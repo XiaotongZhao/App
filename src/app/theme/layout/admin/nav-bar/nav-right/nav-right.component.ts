@@ -37,9 +37,11 @@ export class NavRightComponent implements OnInit, DoCheck {
   public friendId: boolean;
   public dattaConfig: any;
 
-  constructor(config: NgbDropdownConfig, 
+  constructor(
+    config: NgbDropdownConfig,
     private router: Router,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService
+  ) {
     config.placement = 'bottom-right';
     this.visibleUserList = false;
     this.chatMessage = false;
@@ -49,8 +51,8 @@ export class NavRightComponent implements OnInit, DoCheck {
   ngOnInit() {
   }
 
-  onChatToggle(friend_id) {
-    this.friendId = friend_id;
+  onChatToggle(friendId) {
+    this.friendId = friendId;
     this.chatMessage = !this.chatMessage;
   }
 

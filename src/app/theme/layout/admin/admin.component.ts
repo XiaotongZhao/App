@@ -1,6 +1,7 @@
-import {Component, NgZone, OnInit} from '@angular/core';
-import {DattaConfig} from '../../../app-config';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
+import { DattaConfig } from '../../../app-config';
+import { Component, OnInit } from '@angular/core';
+import { AppConsts } from 'src/app/shared/AppConsts';
 
 @Component({
   selector: 'app-admin',
@@ -17,11 +18,12 @@ export class AdminComponent implements OnInit {
     this.dattaConfig = DattaConfig.config;
 
     let currentUrl = this.location.path();
-    if (this.location['_baseHref']) {
-      currentUrl = this.location['_baseHref'] + this.location.path();
+    if (this.location[AppConsts.baseHref]) {
+      currentUrl = this.location[AppConsts.baseHref] + this.location.path();
     }
 
-    if (currentUrl === this.location['_baseHref'] + '/layout/collapse-menu' || currentUrl === this.location['_baseHref'] + '/layout/box') {
+    if (currentUrl === this.location[AppConsts.baseHref] + '/layout/collapse-menu'
+      || currentUrl === this.location[AppConsts.baseHref] + '/layout/box') {
       this.dattaConfig['collapse-menu'] = true;
     }
 

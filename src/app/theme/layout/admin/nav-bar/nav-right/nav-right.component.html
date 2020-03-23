@@ -80,7 +80,7 @@
 </section>
 
 <section class="header-chat" *ngIf="chatMessage && !this.dattaConfig['rtl-layout']" [ngClass]="{'open': chatMessage}" [@slideInOutLeft]>
-  <app-chat-msg (onChatToggle)="this.chatMessage = !this.chatMessage" [friendId]="friendId"></app-chat-msg>
+  <app-chat-msg (chatToggle)="this.chatMessage = !this.chatMessage" [friendId]="friendId"></app-chat-msg>
 </section>
 
 <section class="header-user-list" *ngIf="visibleUserList && this.dattaConfig['rtl-layout']" [ngClass]="{'open': visibleUserList}" [@slideInOutRight]>
@@ -88,5 +88,5 @@
 </section>
 
 <section class="header-chat" *ngIf="chatMessage && this.dattaConfig['rtl-layout']" [ngClass]="{'open': chatMessage}" [@slideInOutRight]>
-  <app-chat-msg (onChatToggle)="this.chatMessage = !this.chatMessage" [friendId]="friendId"></app-chat-msg>
+  <app-chat-msg (chatToggle)="this.chatMessage = !this.chatMessage" [friendId]="friendId"></app-chat-msg>
 </section>

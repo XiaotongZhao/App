@@ -55,8 +55,8 @@
               <a href="javascript:" [ngClass]="{'active': navbarBackgroundColor === 'navbar-lightblue'}" (click)="setNavbarBackground('navbar-lightblue')" data-value="navbar-lightblue"><span></span><span></span></a>
               <a href="javascript:" [ngClass]="{'active': navbarBackgroundColor === 'navbar-dark'}" (click)="setNavbarBackground('navbar-dark')" data-value="navbar-dark"><span></span><span></span></a>
             </div>
-            <h6 *ngIf="dattaConfig['layout'] !== 'horizontal'">Menu Brand Color</h6>
-            <div *ngIf="dattaConfig['layout'] !== 'horizontal'" class="theme-color brand-color">
+            <h6 *ngIf="dattaConfig.layout !== 'horizontal'">Menu Brand Color</h6>
+            <div *ngIf="dattaConfig.layout !== 'horizontal'" class="theme-color brand-color">
               <a href="javascript:" [ngClass]="{'active': brandBackgroundColor === 'brand-default'}" (click)="setBrandBackground('brand-default')" data-value="brand-default"><span></span><span></span></a>
               <a href="javascript:" [ngClass]="{'active': brandBackgroundColor === 'brand-blue'}" (click)="setBrandBackground('brand-blue')" data-value="brand-blue"><span></span><span></span></a>
               <a href="javascript:" [ngClass]="{'active': brandBackgroundColor === 'brand-red'}" (click)="setBrandBackground('brand-red')" data-value="brand-red"><span></span><span></span></a>
@@ -64,8 +64,8 @@
               <a href="javascript:" [ngClass]="{'active': brandBackgroundColor === 'brand-lightblue'}" (click)="setBrandBackground('brand-lightblue')" data-value="brand-lightblue"><span></span><span></span></a>
               <a href="javascript:" [ngClass]="{'active': brandBackgroundColor === 'brand-dark'}" (click)="setBrandBackground('brand-dark')" data-value="brand-dark"><span></span><span></span></a>
             </div>
-            <h6 *ngIf="dattaConfig['layout'] !== 'horizontal'">Navbar Image</h6>
-            <div *ngIf="dattaConfig['layout'] !== 'horizontal'" class="theme-color navbar-images">
+            <h6 *ngIf="dattaConfig.layout !== 'horizontal'">Navbar Image</h6>
+            <div *ngIf="dattaConfig.layout !== 'horizontal'" class="theme-color navbar-images">
               <a href="javascript:" [ngClass]="{'active': navBackgorundImage === 'navbar-image-1'}" (click)="setBackgroundImage('navbar-image-1')" data-value="navbar-image-1"><span></span><span></span></a>
               <a href="javascript:" [ngClass]="{'active': navBackgorundImage === 'navbar-image-2'}" (click)="setBackgroundImage('navbar-image-2')" data-value="navbar-image-2"><span></span><span></span></a>
               <a href="javascript:" [ngClass]="{'active': navBackgorundImage === 'navbar-image-3'}" (click)="setBackgroundImage('navbar-image-3')" data-value="navbar-image-3"><span></span><span></span></a>
@@ -118,7 +118,7 @@
           </perfect-scrollbar>
         </ng-template>
       </ngb-tab>
-      <ngb-tab title="Layouts" *ngIf="dattaConfig['layout'] !== 'horizontal'">
+      <ngb-tab title="Layouts" *ngIf="dattaConfig.layout !== 'horizontal'">
         <ng-template ngbTabContent>
           <perfect-scrollbar ngClass="datta-scroll" [style.max-height]="'calc(100vh - 350px)'" [usePSClass]="'datta'">
             <div *ngIf="dattaConfig['pre-layout'] !== 'layout-8' && dattaConfig['pre-layout'] !== 'layout-6'" class="form-group mb-0">
@@ -226,8 +226,8 @@
               <a href="javascript:" [ngClass]="{'active': navActiveColor === 'active-lightblue'}" (click)="setNavActiveColor('active-lightblue')" data-value="active-lightblue"><span></span><span></span></a>
               <a href="javascript:" [ngClass]="{'active': navActiveColor === 'active-dark'}" (click)="setNavActiveColor('active-dark')" data-value="active-dark"><span></span><span></span></a>
             </div>
-            <h6 *ngIf="dattaConfig['layout'] !== 'horizontal'">Menu Title Color</h6>
-            <div *ngIf="dattaConfig['layout'] !== 'horizontal'" class="theme-color title-color small">
+            <h6 *ngIf="dattaConfig.layout !== 'horizontal'">Menu Title Color</h6>
+            <div *ngIf="dattaConfig.layout !== 'horizontal'" class="theme-color title-color small">
               <a href="javascript:" [ngClass]="{'active': navTitleColor === 'title-default'}" (click)="setNavTitleColor('title-default')" data-value="title-default"><span></span><span></span></a>
               <a href="javascript:" [ngClass]="{'active': navTitleColor === 'title-blue'}" (click)="setNavTitleColor('title-blue')" data-value="title-blue"><span></span><span></span></a>
               <a href="javascript:" [ngClass]="{'active': navTitleColor === 'title-red'}" (click)="setNavTitleColor('title-red')" data-value="title-red"><span></span><span></span></a>
@@ -235,7 +235,7 @@
               <a href="javascript:" [ngClass]="{'active': navTitleColor === 'title-lightblue'}" (click)="setNavTitleColor('title-lightblue')" data-value="title-lightblue"><span></span><span></span></a>
               <a href="javascript:" [ngClass]="{'active': navTitleColor === 'title-dark'}" (click)="setNavTitleColor('title-dark')" data-value="title-dark"><span></span><span></span></a>
             </div>
-            <div *ngIf="dattaConfig['layout'] !== 'horizontal'" class="form-group mb-0">
+            <div *ngIf="dattaConfig.layout !== 'horizontal'" class="form-group mb-0">
               <div class="switch switch-primary d-inline m-r-10">
                 <input type="checkbox" id="caption-hide" [(ngModel)]='menuTitleHide' (change)="hideMenuTitle($event)">
                 <label for="caption-hide" class="cr"></label>

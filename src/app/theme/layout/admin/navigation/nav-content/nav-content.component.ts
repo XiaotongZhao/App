@@ -1,7 +1,8 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, NgZone, OnInit, Output, ViewChild} from '@angular/core';
-import {NavigationItem} from '../navigation';
-import {DattaConfig} from '../../../../../app-config';
-import {Location} from '@angular/common';
+import { AfterViewInit, Component, ElementRef, EventEmitter, NgZone, OnInit, Output, ViewChild } from '@angular/core';
+import { NavigationItem } from '../navigation';
+import { DattaConfig } from '../../../../../app-config';
+import { Location } from '@angular/common';
+import { AppConsts } from 'src/app/shared/AppConsts';
 
 @Component({
   selector: 'app-nav-content',
@@ -9,7 +10,7 @@ import {Location} from '@angular/common';
   styleUrls: ['./nav-content.component.scss']
 })
 export class NavContentComponent implements OnInit, AfterViewInit {
-  @Output() onNavCollapsedMob = new EventEmitter();
+  @Output() navCollapsedMob = new EventEmitter();
 
   public dattaConfig: any;
   public navigation: any;
@@ -20,8 +21,8 @@ export class NavContentComponent implements OnInit, AfterViewInit {
   public scrollWidth: any;
   public windowWidth: number;
 
-  @ViewChild('navbarContent', {static: false}) navbarContent: ElementRef;
-  @ViewChild('navbarWrapper', {static: false}) navbarWrapper: ElementRef;
+  @ViewChild('navbarContent', { static: false }) navbarContent: ElementRef;
+  @ViewChild('navbarWrapper', { static: false }) navbarWrapper: ElementRef;
 
   constructor(public nav: NavigationItem, private zone: NgZone, private location: Location) {
     this.dattaConfig = DattaConfig.config;
@@ -36,7 +37,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.windowWidth < 992) {
-      this.dattaConfig['layout'] = 'vertical';
+      this.dattaConfig.layout = 'vertical';
       setTimeout(() => {
         document.querySelector('.pcoded-navbar').classList.add('menupos-static');
         (document.querySelector('#nav-ps-datta') as HTMLElement).style.maxHeight = '100%';
@@ -45,7 +46,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.dattaConfig['layout'] === 'horizontal') {
+    if (this.dattaConfig.layout === 'horizontal') {
       this.contentWidth = this.navbarContent.nativeElement.clientWidth;
       this.wrapperWidth = this.navbarWrapper.nativeElement.clientWidth;
     }
@@ -73,63 +74,62 @@ export class NavContentComponent implements OnInit, AfterViewInit {
 
   fireLeave() {
     const sections = document.querySelectorAll('.pcoded-hasmenu');
-    for (let i = 0; i < sections.length; i++) {
-      sections[i].classList.remove('active');
-      sections[i].classList.remove('pcoded-trigger');
+    for (const section of sections as any) {
+      section.classList.remove('active');
+      section.classList.remove('pcoded-trigger');
     }
-
-    let current_url = this.location.path();
-    if (this.location['_baseHref']) {
-      current_url = this.location['_baseHref'] + this.location.path();
+    let currentUrl = this.location.path();
+    if (this.location[AppConsts.baseHref]) {
+      currentUrl = this.location[AppConsts.baseHref] + this.location.path();
     }
-    const link = "a.nav-link[ href='" + current_url + "' ]";
+    const link = 'a.nav-link[ href="' + currentUrl + '" ]';
     const ele = document.querySelector(link);
     if (ele !== null && ele !== undefined) {
       const parent = ele.parentElement;
-      const up_parent = parent.parentElement.parentElement;
-      const last_parent = up_parent.parentElement;
+      const upParent = parent.parentElement.parentElement;
+      const lastParent = upParent.parentElement;
       if (parent.classList.contains('pcoded-hasmenu')) {
         parent.classList.add('active');
-      } else if(up_parent.classList.contains('pcoded-hasmenu')) {
-        up_parent.classList.add('active');
-      } else if (last_parent.classList.contains('pcoded-hasmenu')) {
-        last_parent.classList.add('active');
+      } else if (upParent.classList.contains('pcoded-hasmenu')) {
+        upParent.classList.add('active');
+      } else if (lastParent.classList.contains('pcoded-hasmenu')) {
+        lastParent.classList.add('active');
       }
     }
   }
 
   navMob() {
     if (this.windowWidth < 992 && document.querySelector('app-navigation.pcoded-navbar').classList.contains('mob-open')) {
-      this.onNavCollapsedMob.emit();
+      this.navCollapsedMob.emit();
     }
   }
 
   fireOutClick() {
-    let current_url = this.location.path();
-    if (this.location['_baseHref']) {
-      current_url = this.location['_baseHref'] + this.location.path();
+    let currentUrl = this.location.path();
+    if (this.location[AppConsts.baseHref]) {
+      currentUrl = this.location[AppConsts.baseHref] + this.location.path();
     }
-    const link = 'a.nav-link[ href="' + current_url + '" ]';
+    const link = 'a.nav-link[ href="' + currentUrl + '" ]';
     const ele = document.querySelector(link);
     if (ele !== null && ele !== undefined) {
       const parent = ele.parentElement;
-      const up_parent = parent.parentElement.parentElement;
-      const last_parent = up_parent.parentElement;
+      const upParent = parent.parentElement.parentElement;
+      const lastParent = upParent.parentElement;
       if (parent.classList.contains('pcoded-hasmenu')) {
-        if (this.dattaConfig['layout'] === 'vertical') {
+        if (this.dattaConfig.layout === 'vertical') {
           parent.classList.add('pcoded-trigger');
         }
         parent.classList.add('active');
-      } else if(up_parent.classList.contains('pcoded-hasmenu')) {
-        if (this.dattaConfig['layout'] === 'vertical') {
-          up_parent.classList.add('pcoded-trigger');
+      } else if (upParent.classList.contains('pcoded-hasmenu')) {
+        if (this.dattaConfig.layout === 'vertical') {
+          upParent.classList.add('pcoded-trigger');
         }
-        up_parent.classList.add('active');
-      } else if (last_parent.classList.contains('pcoded-hasmenu')) {
-        if (this.dattaConfig['layout'] === 'vertical') {
-          last_parent.classList.add('pcoded-trigger');
+        upParent.classList.add('active');
+      } else if (lastParent.classList.contains('pcoded-hasmenu')) {
+        if (this.dattaConfig.layout === 'vertical') {
+          lastParent.classList.add('pcoded-trigger');
         }
-        last_parent.classList.add('active');
+        lastParent.classList.add('active');
       }
     }
   }

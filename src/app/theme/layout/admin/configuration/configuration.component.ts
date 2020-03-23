@@ -2,6 +2,7 @@ import { Component, NgZone, OnInit, ViewEncapsulation } from '@angular/core';
 import { DattaConfig } from '../../../../app-config';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { AppConsts } from 'src/app/shared/AppConsts';
 
 @Component({
   selector: 'app-configuration',
@@ -62,7 +63,7 @@ export class ConfigurationComponent implements OnInit {
     this.changeRtlLayout(this.rtlLayout);
 
     this.menuFixedLayout = this.dattaConfig['nav-fixed-layout'];
-    if (this.dattaConfig['layout'] === 'vertical') {
+    if (this.dattaConfig.layout === 'vertical') {
       this.changeMenuFixedLayout(this.menuFixedLayout);
     }
 
@@ -94,90 +95,90 @@ export class ConfigurationComponent implements OnInit {
   }
 
   setThemeLayout() {
-    let current_url = this.location.path();
-    if (this.location['_baseHref']) {
-      current_url = this.location['_baseHref'] + this.location.path();
+    let currentUrl = this.location.path();
+    if (this.location[AppConsts.baseHref]) {
+      currentUrl = this.location[AppConsts.baseHref] + this.location.path();
     }
 
-    switch (current_url) {
-      case this.location['_baseHref'] + '/layout/static':
-        this.dattaConfig['layout'] = 'vertical';
+    switch (currentUrl) {
+      case this.location[AppConsts.baseHref] + '/layout/static':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['nav-fixed-layout'] = false;
         this.dattaConfig['header-fixed-layout'] = false;
         break;
-      case this.location['_baseHref'] + '/layout/fixed':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/fixed':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['nav-fixed-layout'] = true;
         this.dattaConfig['header-fixed-layout'] = true;
         break;
-      case this.location['_baseHref'] + '/layout/nav-fixed':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/nav-fixed':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['nav-fixed-layout'] = true;
         this.dattaConfig['header-fixed-layout'] = false;
         break;
-      case this.location['_baseHref'] + '/layout/nav-image':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/nav-image':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['nav-back-image'] = 'navbar-image-3';
         break;
-      case this.location['_baseHref'] + '/layout/collapse-menu':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/collapse-menu':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['collapse-menu'] = true;
         break;
-      case this.location['_baseHref'] + '/layout/horizontal':
-        this.dattaConfig['layout'] = 'horizontal';
+      case this.location[AppConsts.baseHref] + '/layout/horizontal':
+        this.dattaConfig.layout = 'horizontal';
         break;
-      case this.location['_baseHref'] + '/layout/box':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/box':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['box-layout'] = true;
         this.dattaConfig['collapse-menu'] = true;
         break;
-      case this.location['_baseHref'] + '/layout/rtl':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/rtl':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['rtl-layout'] = true;
         break;
-      case this.location['_baseHref'] + '/layout/light':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/light':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['layout-type'] = 'menu-light';
         break;
-      case this.location['_baseHref'] + '/layout/dark':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/dark':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['layout-type'] = 'dark';
         this.dattaConfig['nav-back-color'] = 'navbar-dark';
         this.dattaConfig['nav-brand-color'] = 'brand-dark';
         break;
-      case this.location['_baseHref'] + '/layout/icon-color':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/icon-color':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['layout-type'] = 'menu-light';
         this.dattaConfig['nav-icon-color'] = true;
         break;
-      case this.location['_baseHref'] + '/layout/layout-2':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/layout-2':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['pre-layout'] = 'layout-2';
         break;
-      case this.location['_baseHref'] + '/layout/layout-2-2':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/layout-2-2':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['pre-layout'] = 'layout-2-2';
         break;
-      case this.location['_baseHref'] + '/layout/layout-3':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/layout-3':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['pre-layout'] = 'layout-3';
         break;
-      case this.location['_baseHref'] + '/layout/layout-4':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/layout-4':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['pre-layout'] = 'layout-4';
         break;
-      case this.location['_baseHref'] + '/layout/layout-4-2':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/layout-4-2':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['pre-layout'] = 'layout-4-2';
         break;
-      case this.location['_baseHref'] + '/layout/layout-5h':
-        this.dattaConfig['layout'] = 'horizontal';
+      case this.location[AppConsts.baseHref] + '/layout/layout-5h':
+        this.dattaConfig.layout = 'horizontal';
         this.dattaConfig['layout-type'] = 'menu-light';
         this.dattaConfig['nav-icon-color'] = true;
         this.dattaConfig['header-back-color'] = 'header-blue';
         break;
-      case this.location['_baseHref'] + '/layout/nav-color':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/nav-color':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['layout-type'] = 'menu-light';
         this.dattaConfig['nav-icon-color'] = true;
         this.dattaConfig['header-back-color'] = 'header-lightblue';
@@ -185,8 +186,8 @@ export class ConfigurationComponent implements OnInit {
         this.dattaConfig['nav-fixed-layout'] = true;
         this.dattaConfig['header-fixed-layout'] = true;
         break;
-      case this.location['_baseHref'] + '/layout/layout-6':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/layout-6':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['pre-layout'] = 'layout-6';
         this.dattaConfig['layout-type'] = 'menu-light';
         this.dattaConfig['nav-icon-color'] = true;
@@ -195,8 +196,8 @@ export class ConfigurationComponent implements OnInit {
         this.dattaConfig['header-fixed-layout'] = false;
         this.dattaConfig['layout-6-background'] = '#23b7e5';
         break;
-      case this.location['_baseHref'] + '/layout/layout-8':
-        this.dattaConfig['layout'] = 'vertical';
+      case this.location[AppConsts.baseHref] + '/layout/layout-8':
+        this.dattaConfig.layout = 'vertical';
         this.dattaConfig['pre-layout'] = 'layout-8';
         this.dattaConfig['layout-type'] = 'menu-light';
         this.dattaConfig['header-back-color'] = 'header-lightblue';
@@ -210,18 +211,18 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  setPreBuildLayout(pre_layout) {
-    if (pre_layout === 'layout-6') {
+  setPreBuildLayout(preLayout) {
+    if (preLayout === 'layout-6') {
       document.querySelector('.pcoded-navbar').classList.add('menupos-static');
       this.headerBackColor = this.dattaConfig['layout-6-background'];
       this.setHeaderBackColor(this.headerBackColor);
     }
 
-    if (pre_layout !== 'layout-6' && pre_layout !== 'layout-8') {
+    if (preLayout !== 'layout-6' && preLayout !== 'layout-8') {
       this.isConfig = false;
-      document.querySelector('.pcoded-navbar').classList.add(pre_layout);
+      document.querySelector('.pcoded-navbar').classList.add(preLayout);
     } else {
-      document.querySelector('body').classList.add(pre_layout);
+      document.querySelector('body').classList.add(preLayout);
     }
   }
 

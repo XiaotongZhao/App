@@ -1,7 +1,7 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild} from '@angular/core';
-import {FriendsList} from '../../../../../../fack-db/friends-list';
-import {UserChat} from '../../../../../../fack-db/user-chat';
-import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { FriendsList } from '../../../../../../fack-db/friends-list';
+import { UserChat } from '../../../../../../fack-db/user-chat';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-chat-msg',
@@ -10,14 +10,14 @@ import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
 })
 export class ChatMsgComponent implements OnInit {
   @Input() friendId;
-  @Output() onChatToggle = new EventEmitter();
-  @ViewChild('newChat', {read: ElementRef, static: false}) public newChat: ElementRef;
-  @ViewChild(PerfectScrollbarComponent, {static: false}) componentRef?: PerfectScrollbarComponent;
+  @Output() chatToggle = new EventEmitter();
+  @ViewChild('newChat', { read: ElementRef, static: false }) public newChat: ElementRef;
+  @ViewChild(PerfectScrollbarComponent, { static: false }) componentRef?: PerfectScrollbarComponent;
   public friendsList: any;
   public userChat: any;
   public chatMessage: any;
   public message: string;
-  public message_error: boolean;
+  public messageError: boolean;
   public friendWriting: boolean;
   public newReplay: any;
 
@@ -32,31 +32,31 @@ export class ChatMsgComponent implements OnInit {
     if (this.chatMessage) {
       const message = findObjectByKeyValue(this.userChat, 'friend_id', this.friendId);
       if (message) {
-        this.chatMessage['chat'] = message['messages'];
+        this.chatMessage.chat = message.messages;
       }
     }
   }
 
   sentMsg(flag) {
     if (this.message === '' || this.message === undefined) {
-      this.message_error = true;
+      this.messageError = true;
     } else {
       if (flag === 1) {
-        this.message_error = false;
+        this.messageError = false;
       } else {
-        this.message_error = false;
-        const temp_replay = this.message;
-        let html_send;
-        html_send = '<div class="media chat-messages">' +
+        this.messageError = false;
+        const tempReplay = this.message;
+        let htmlSend;
+        htmlSend = '<div class="media chat-messages">' +
           '<div class="media-body chat-menu-reply">' +
-            '<div class="">' +
-              '<p class="chat-cont">' + this.message + '</p>' +
-            '</div>' +
-            '<p class="chat-time">now</p>' +
+          '<div class="">' +
+          '<p class="chat-cont">' + this.message + '</p>' +
           '</div>' +
-        '</div>';
+          '<p class="chat-time">now</p>' +
+          '</div>' +
+          '</div>';
 
-        this.newReplay = this.newReplay + html_send;
+        this.newReplay = this.newReplay + htmlSend;
         this.message = '';
 
         setTimeout(() => {
@@ -66,20 +66,21 @@ export class ChatMsgComponent implements OnInit {
         setTimeout(() => {
           this.friendWriting = false;
 
-          let html_replay;
-          html_replay = '<div class="media chat-messages">' +
+          let htmlReplay;
+          htmlReplay = '<div class="media chat-messages">' +
             '<a class="media-left photo-table" href="javascript:">' +
-            '<img class="media-object img-radius img-radius m-t-5" src="' + this.chatMessage.photo + '" alt="' + this.chatMessage.name + '">' +
+            '<img class="media-object img-radius img-radius m-t-5" src="' + this.chatMessage.photo +
+            '" alt="' + this.chatMessage.name + '">' +
             '</a>' +
             '<div class="media-body chat-menu-content">' +
             '<div class="">' +
             '<p class="chat-cont">hello superior personality you write</p>' +
-            '<p class="chat-cont">' + temp_replay + '</p>' +
+            '<p class="chat-cont">' + tempReplay + '</p>' +
             '</div>' +
             '<p class="chat-time">now</p>' +
             '</div>' +
             '</div>';
-          this.newReplay = this.newReplay + html_replay;
+          this.newReplay = this.newReplay + htmlReplay;
           setTimeout(() => {
             this.componentRef.directiveRef.scrollToBottom();
           }, 100);
@@ -90,10 +91,10 @@ export class ChatMsgComponent implements OnInit {
 
 }
 
-function findObjectByKeyValue(array, key, value) {
-  for (let i = 0; i < array.length; i++) {
-    if (array[i][key] === value) {
-      return array[i];
+function findObjectByKeyValue(arrays, key, value) {
+  for (const array of arrays as any) {
+    if (array[key] === value) {
+      return array[key];
     }
   }
   return false;
