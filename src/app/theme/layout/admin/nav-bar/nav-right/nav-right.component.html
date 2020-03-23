@@ -76,7 +76,7 @@
   </li>
 </ul>
 <section class="header-user-list" *ngIf="visibleUserList && !this.dattaConfig['rtl-layout']" [ngClass]="{'open': visibleUserList}" [@slideInOutLeft]>
-  <app-chat-user-list (onChatToggle)="onChatToggle($event)" (onChatCollapse)="this.visibleUserList = !this.visibleUserList; this.chatMessage = false;"></app-chat-user-list>
+  <app-chat-user-list (chatToggle)="chatToggle($event)" (chatCollapse)="this.visibleUserList = !this.visibleUserList; this.chatMessage = false;"></app-chat-user-list>
 </section>
 
 <section class="header-chat" *ngIf="chatMessage && !this.dattaConfig['rtl-layout']" [ngClass]="{'open': chatMessage}" [@slideInOutLeft]>
@@ -84,7 +84,7 @@
 </section>
 
 <section class="header-user-list" *ngIf="visibleUserList && this.dattaConfig['rtl-layout']" [ngClass]="{'open': visibleUserList}" [@slideInOutRight]>
-  <app-chat-user-list (onChatToggle)="onChatToggle($event)" (onChatCollapse)="this.visibleUserList = !this.visibleUserList; this.chatMessage = false;"></app-chat-user-list>
+  <app-chat-user-list (chatToggle)="chatToggle($event)" (chatCollapse)="this.visibleUserList = !this.visibleUserList; this.chatMessage = false;"></app-chat-user-list>
 </section>
 
 <section class="header-chat" *ngIf="chatMessage && this.dattaConfig['rtl-layout']" [ngClass]="{'open': chatMessage}" [@slideInOutRight]>

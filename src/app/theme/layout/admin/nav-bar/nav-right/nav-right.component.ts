@@ -51,7 +51,7 @@ export class NavRightComponent implements OnInit, DoCheck {
   ngOnInit() {
   }
 
-  onChatToggle(friendId) {
+  chatToggle(friendId) {
     this.friendId = friendId;
     this.chatMessage = !this.chatMessage;
   }

@@ -7,7 +7,7 @@ import {DattaConfig} from '../../../../app-config';
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent implements OnInit {
-  @Output() onNavCollapsedMob = new EventEmitter();
+  @Output() navCollapsedMobEvent = new EventEmitter();
   public dattaConfig: any;
   public navCollapsedMob;
   public headerStyle: string;

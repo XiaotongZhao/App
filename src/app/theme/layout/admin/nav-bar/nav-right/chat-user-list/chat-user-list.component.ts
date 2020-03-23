@@ -7,8 +7,8 @@ import {FriendsList} from '../../../../../../fack-db/friends-list';
   styleUrls: ['./chat-user-list.component.scss']
 })
 export class ChatUserListComponent implements OnInit {
-  @Output() onChatCollapse = new EventEmitter();
-  @Output() onChatToggle = new EventEmitter();
+  @Output() chatCollapse = new EventEmitter();
+  @Output() chatToggle = new EventEmitter();
   public friendsList: any;
 
   constructor() {
@@ -19,7 +19,7 @@ export class ChatUserListComponent implements OnInit {
   }
 
   chatOn(friendId) {
-    this.onChatToggle.emit(friendId);
+    this.chatToggle.emit(friendId);
   }
 
 }

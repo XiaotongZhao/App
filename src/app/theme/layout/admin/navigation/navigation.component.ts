@@ -7,8 +7,8 @@ import { DattaConfig } from '../../../../app-config';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
-  @Output() onNavCollapse = new EventEmitter<any>();
-  @Output() onNavCollapsedMob = new EventEmitter<any>();
+  @Output() navCollapseEvent = new EventEmitter<any>();
+  @Output() navCollapsedMobEvent = new EventEmitter<any>();
 
   public dattaConfig: any;
   public navCollapsed: boolean;
@@ -28,13 +28,13 @@ export class NavigationComponent implements OnInit {
   navCollapse() {
     if (this.windowWidth >= 992) {
       this.navCollapsed = !this.navCollapsed;
-      this.onNavCollapse.emit();
+      this.navCollapseEvent.emit();
     }
   }
 
   navCollapseMob() {
     if (this.windowWidth < 992) {
-      this.onNavCollapsedMob.emit();
+      this.navCollapsedMobEvent.emit();
     }
   }
 }
