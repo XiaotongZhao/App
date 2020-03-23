@@ -53,10 +53,10 @@ $i: 0;
 /*====== text-color, background color css starts ======*/
 @each $value in $color-name {
     $i: index($color-name, $value);
-    .bg-#{$value} {
+    .bg-#{'' + $value} {
         background: nth($color-color,$i),;
     }
-    .text-#{$value} {
+    .text-#{'' + $value} {
         color: nth($color-color,$i);
     }
 }
@@ -64,7 +64,7 @@ $i: 0;
 /*====== Card top border css starts ======*/
 @each $value in $color-name {
     $i: index($color-name, $value);
-    .card-border-#{$value}{
+    .card-border-#{'' + $value}{
         border-top: 4px solid nth($color-color,$i);
     }
 }

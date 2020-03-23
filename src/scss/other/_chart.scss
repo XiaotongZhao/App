@@ -81,7 +81,7 @@ $flg: 1;
     @each $value in $color-bt-name {
         $i: index($color-bt-name, $value);
 
-        &.radial-bar-#{$value} {
+        &.radial-bar-#{'' + $value} {
             @while $dt<=100 {
                 &.radial-bar-#{$dt} {
                     @if($dt < 50) {
