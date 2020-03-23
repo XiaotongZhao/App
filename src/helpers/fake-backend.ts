@@ -14,7 +14,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         // wrap in delayed observable to simulate server api call
         return of(null)
             .pipe(mergeMap(handleRoute))
-            .pipe(materialize()) // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
+            .pipe(materialize())
             .pipe(delay(500))
             .pipe(dematerialize());
 
@@ -75,7 +75,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function deleteUser() {
             if (!isLoggedIn()) {
                 return unauthorized();
-            };
+            }
             users = users.filter(x => x.id !== idFromUrl());
             localStorage.setItem('users', JSON.stringify(users));
             return ok();
@@ -83,8 +83,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // helper functions
 
-        function ok(body?) {
-            return of(new HttpResponse({ status: 200, body }))
+        function ok(message?: any) {
+            return of(new HttpResponse({ status: 200, body: message }));
         }
 
         function error(message) {
@@ -101,7 +101,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function idFromUrl() {
             const urlParts = url.split('/');
-            return parseInt(urlParts[urlParts.length - 1]);
+            return Number(urlParts[urlParts.length - 1]);
         }
     }
 }

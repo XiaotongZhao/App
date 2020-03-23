@@ -7,7 +7,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class NavLogoComponent implements OnInit {
   @Input() navCollapsed: boolean;
-  @Output() onNavCollapse = new EventEmitter();
+  @Output() onNavCollapse = new EventEmitter<any>();
   public windowWidth: number;
 
   constructor() {

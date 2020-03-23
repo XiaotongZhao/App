@@ -127,7 +127,7 @@ const NavigationItems = [
             title: 'Sample Page',
             type: 'item',
             url: '/sample-page'
-          }       
+          }
         ]
       }
     ]

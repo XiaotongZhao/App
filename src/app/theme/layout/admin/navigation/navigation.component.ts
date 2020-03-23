@@ -1,5 +1,5 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {DattaConfig} from '../../../../app-config';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { DattaConfig } from '../../../../app-config';
 
 @Component({
   selector: 'app-navigation',
@@ -7,11 +7,12 @@ import {DattaConfig} from '../../../../app-config';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
-  @Output() onNavCollapse = new EventEmitter();
-  @Output() onNavCollapsedMob = new EventEmitter();
+  @Output() onNavCollapse = new EventEmitter<any>();
+  @Output() onNavCollapsedMob = new EventEmitter<any>();
+
   public dattaConfig: any;
-  public navCollapsed;
-  public navCollapsedMob;
+  public navCollapsed: boolean;
+  public navCollapsedMob: boolean;
   public windowWidth: number;
 
   constructor() {

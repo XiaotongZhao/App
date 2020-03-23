@@ -1,5 +1,5 @@
 {
   "appBaseUrl": "http://localhost:4200",
-  "remoteServiceBaseUrl": "http://localhost:5050",
-  "tokenServiceBaseUrl": "http://localhost:5060"
+  "remoteServiceBaseUrl": "https://localhost:5050",
+  "tokenServiceBaseUrl": "https://localhost:5060"
 }

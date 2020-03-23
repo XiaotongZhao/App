@@ -18,31 +18,31 @@ export class NavGroupComponent implements OnInit {
 
   ngOnInit() {
     // at reload time active and trigger link
-    let current_url = this.location.path();
+    let currentUrl = this.location.path();
     if (this.location['_baseHref']) {
-      current_url = this.location['_baseHref'] + this.location.path();
+      currentUrl = this.location['_baseHref'] + this.location.path();
     }
-    const link = "a.nav-link[ href='" + current_url + "' ]";
+    const link = 'a.nav-link[ href="' + currentUrl + '" ]';
     const ele = document.querySelector(link);
     if (ele !== null && ele !== undefined) {
       const parent = ele.parentElement;
-      const up_parent = parent.parentElement.parentElement;
-      const last_parent = up_parent.parentElement;
+      const upParent = parent.parentElement.parentElement;
+      const lastParent = upParent.parentElement;
       if (parent.classList.contains('pcoded-hasmenu')) {
         if (this.dattaConfig['layout'] === 'vertical') {
           parent.classList.add('pcoded-trigger');
         }
         parent.classList.add('active');
-      } else if(up_parent.classList.contains('pcoded-hasmenu')) {
+      } else if(upParent.classList.contains('pcoded-hasmenu')) {
         if (this.dattaConfig['layout'] === 'vertical') {
-          up_parent.classList.add('pcoded-trigger');
+          upParent.classList.add('pcoded-trigger');
         }
-        up_parent.classList.add('active');
-      } else if (last_parent.classList.contains('pcoded-hasmenu')) {
+        upParent.classList.add('active');
+      } else if (lastParent.classList.contains('pcoded-hasmenu')) {
         if (this.dattaConfig['layout'] === 'vertical') {
-          last_parent.classList.add('pcoded-trigger');
+          lastParent.classList.add('pcoded-trigger');
         }
-        last_parent.classList.add('active');
+        lastParent.classList.add('active');
       }
     }
   }
