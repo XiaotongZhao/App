@@ -41,6 +41,8 @@
     "nswag": "^13.2.0",
     "nvd3": "^1.8.6",
     "peity": "^3.3.0",
+    "primeicons": "^2.0.0",
+    "primeng": "^9.0.2",
     "raphael": "^2.2.7",
     "rxjs": "~6.5.3",
     "rxjs-compat": "^6.5.3",

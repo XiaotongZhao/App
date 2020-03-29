@@ -1,5 +1,6 @@
-import { Component, OnInit, Injectable, ViewChild } from '@angular/core';
-import { EditorComponent } from 'src/app/theme/shared/components/editor/editor.component';
+import { Component, OnInit, Injectable } from '@angular/core';
+import { LazyLoadEvent } from 'primeng/api';
+
 
 @Component({
   selector: 'app-testpage',
@@ -9,17 +10,39 @@ import { EditorComponent } from 'src/app/theme/shared/components/editor/editor.c
 
 @Injectable()
 export class TestpageComponent implements OnInit {
-  @ViewChild('htmlContent', { static: true }) editor: EditorComponent;
-
+  datas: any[];
+  cols: any[];
+  first = 0;
+  loading: boolean = false;
+  totalRecords: number;
   constructor() {
   }
 
   ngOnInit() {
+    this.cols = [
+      { field: 'vin', header: 'Vin' },
+      { field: 'year', header: 'Year' },
+      { field: 'brand', header: 'Brand' },
+      { field: 'color', header: 'Color' }
+    ];
+    this.datas = [
+      { vin: 'test', year: '12', brand: 'testbrand', color: 'black' },
+      { vin: 'test', year: '12', brand: 'testbrand', color: 'black' },
+      { vin: 'test', year: '12', brand: 'testbrand', color: 'black' },
+      { vin: 'test', year: '12', brand: 'testbrand', color: 'black' },
+      { vin: 'test', year: '12', brand: 'testbrand', color: 'black' },
+      { vin: 'test', year: '12', brand: 'testbrand', color: 'black' },
+      { vin: 'test', year: '12', brand: 'testbrand', color: 'black' },
+      { vin: 'test', year: '12', brand: 'testbrand', color: 'black' },
+      { vin: 'test', year: '12', brand: 'testbrand', color: 'black' },
+      { vin: 'test', year: '12', brand: 'testbrand', color: 'black' },
+
+      { vin: 'test', year: '12', brand: 'testbrand', color: 'black' }
+    ];
+    this.totalRecords = this.datas.length;
   }
 
-  test() {
-    const testText = this.editor.htmlContent;
-    console.log(testText);
-  }
 
+  loadCarsLazy(event: LazyLoadEvent) {
+  }
 }
