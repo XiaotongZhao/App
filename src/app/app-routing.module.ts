@@ -40,8 +40,8 @@ const routes: Routes = [
         loadChildren: './demo/extra/sample-page/sample-page.module#SamplePageModule'
       },
       {
-        path: 'testpage',
-        loadChildren: './main/testpage/testpage.module#TestpageModule'
+        path: 'blog',
+        loadChildren: './main/blog/blog.module#BlogModule'
       }
     ]
   },

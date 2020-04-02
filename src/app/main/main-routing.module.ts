@@ -6,8 +6,8 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'testpage',
-        loadChildren: './testpage/testpage.module#TestpageModule'
+        path: 'blog',
+        loadChildren: './blog/blog.module#BlogModule'
       }
     ]
   }

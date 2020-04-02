@@ -17,43 +17,95 @@ import * as moment from 'moment';
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 @Injectable()
-export class MenuServiceProxy {
+export class BlogServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "http://localhost:5050";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5050";
     }
 
-    getMenuData(): Observable<MenuViewModel[]> {
-        let url_ = this.baseUrl + "/api/Menu/GetMenuData";
+    createBlogInfo(blogInfo: BlogInfo): Observable<void> {
+        let url_ = this.baseUrl + "/api/Blog/CreateBlogInfo";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(blogInfo);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",			
             headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateBlogInfo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateBlogInfo(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateBlogInfo(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    updateBlogInfo(blogInfo: BlogInfo): Observable<number> {
+        let url_ = this.baseUrl + "/api/Blog/UpdateBlogInfo";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(blogInfo);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetMenuData(response_);
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateBlogInfo(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetMenuData(<any>response_);
+                    return this.processUpdateBlogInfo(<any>response_);
                 } catch (e) {
-                    return <Observable<MenuViewModel[]>><any>_observableThrow(e);
+                    return <Observable<number>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<MenuViewModel[]>><any>_observableThrow(response_);
+                return <Observable<number>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetMenuData(response: HttpResponseBase): Observable<MenuViewModel[]> {
+    protected processUpdateBlogInfo(response: HttpResponseBase): Observable<number> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -64,10 +116,112 @@ export class MenuServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(MenuViewModel.fromJS(item));
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    getBlogInfos(blogSearch: BlogSearch): Observable<DataSourceOfBlogInfo> {
+        let url_ = this.baseUrl + "/api/Blog/GetBlogInfos";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(blogSearch);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBlogInfos(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBlogInfos(<any>response_);
+                } catch (e) {
+                    return <Observable<DataSourceOfBlogInfo>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DataSourceOfBlogInfo>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBlogInfos(response: HttpResponseBase): Observable<DataSourceOfBlogInfo> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DataSourceOfBlogInfo.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DataSourceOfBlogInfo>(<any>null);
+    }
+
+    getBlogTyps(): Observable<{ [key: string]: string; }> {
+        let url_ = this.baseUrl + "/api/Blog/GetBlogTyps";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBlogTyps(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBlogTyps(<any>response_);
+                } catch (e) {
+                    return <Observable<{ [key: string]: string; }>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<{ [key: string]: string; }>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBlogTyps(response: HttpResponseBase): Observable<{ [key: string]: string; }> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200) {
+                result200 = {} as any;
+                for (let key in resultData200) {
+                    if (resultData200.hasOwnProperty(key))
+                        result200![key] = resultData200[key];
+                }
             }
             return _observableOf(result200);
             }));
@@ -76,11 +230,15 @@ export class MenuServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<MenuViewModel[]>(<any>null);
+        return _observableOf<{ [key: string]: string; }>(<any>null);
     }
 
-    getTest(): Observable<string> {
-        let url_ = this.baseUrl + "/api/Menu/GetTest";
+    getBlogById(id: number | undefined): Observable<BlogInfo> {
+        let url_ = this.baseUrl + "/api/Blog/GetBlogById?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -92,11 +250,59 @@ export class MenuServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetTest(response_);
+            return this.processGetBlogById(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetTest(<any>response_);
+                    return this.processGetBlogById(<any>response_);
+                } catch (e) {
+                    return <Observable<BlogInfo>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BlogInfo>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBlogById(response: HttpResponseBase): Observable<BlogInfo> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BlogInfo.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BlogInfo>(<any>null);
+    }
+
+    testCache(): Observable<string> {
+        let url_ = this.baseUrl + "/api/Blog/TestCache";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processTestCache(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTestCache(<any>response_);
                 } catch (e) {
                     return <Observable<string>><any>_observableThrow(e);
                 }
@@ -105,7 +311,7 @@ export class MenuServiceProxy {
         }));
     }
 
-    protected processGetTest(response: HttpResponseBase): Observable<string> {
+    protected processTestCache(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -128,10 +334,10 @@ export class MenuServiceProxy {
     }
 }
 
-export abstract class BaseViewModelOfInteger implements IBaseViewModelOfInteger {
+export abstract class BaseViewModelOfLong implements IBaseViewModelOfLong {
     id!: number;
 
-    constructor(data?: IBaseViewModelOfInteger) {
+    constructor(data?: IBaseViewModelOfLong) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -146,9 +352,9 @@ export abstract class BaseViewModelOfInteger implements IBaseViewModelOfInteger 
         }
     }
 
-    static fromJS(data: any): BaseViewModelOfInteger {
+    static fromJS(data: any): BaseViewModelOfLong {
         data = typeof data === 'object' ? data : {};
-        throw new Error("The abstract class 'BaseViewModelOfInteger' cannot be instantiated.");
+        throw new Error("The abstract class 'BaseViewModelOfLong' cannot be instantiated.");
     }
 
     toJSON(data?: any) {
@@ -158,94 +364,186 @@ export abstract class BaseViewModelOfInteger implements IBaseViewModelOfInteger 
     }
 }
 
-export interface IBaseViewModelOfInteger {
+export interface IBaseViewModelOfLong {
     id: number;
 }
 
-export class MenuViewModel extends BaseViewModelOfInteger implements IMenuViewModel {
-    menuName!: string | undefined;
-    childMenuViewModel!: ChildMenuViewModel[] | undefined;
+export class BlogInfo extends BaseViewModelOfLong implements IBlogInfo {
+    name!: string | undefined;
+    content!: string | undefined;
+    typeName!: string | undefined;
+    blogTypeId!: number | undefined;
 
-    constructor(data?: IMenuViewModel) {
+    constructor(data?: IBlogInfo) {
         super(data);
     }
 
     init(_data?: any) {
         super.init(_data);
         if (_data) {
-            this.menuName = _data["menuName"];
-            if (Array.isArray(_data["childMenuViewModel"])) {
-                this.childMenuViewModel = [] as any;
-                for (let item of _data["childMenuViewModel"])
-                    this.childMenuViewModel!.push(ChildMenuViewModel.fromJS(item));
+            this.name = _data["name"];
+            this.content = _data["content"];
+            this.typeName = _data["typeName"];
+            this.blogTypeId = _data["blogTypeId"];
+        }
+    }
+
+    static fromJS(data: any): BlogInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new BlogInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["content"] = this.content;
+        data["typeName"] = this.typeName;
+        data["blogTypeId"] = this.blogTypeId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBlogInfo extends IBaseViewModelOfLong {
+    name: string | undefined;
+    content: string | undefined;
+    typeName: string | undefined;
+    blogTypeId: number | undefined;
+}
+
+export class DataSourceOfBlogInfo implements IDataSourceOfBlogInfo {
+    data!: BlogInfo[] | undefined;
+    count!: number;
+
+    constructor(data?: IDataSourceOfBlogInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
             }
         }
     }
 
-    static fromJS(data: any): MenuViewModel {
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["data"])) {
+                this.data = [] as any;
+                for (let item of _data["data"])
+                    this.data!.push(BlogInfo.fromJS(item));
+            }
+            this.count = _data["count"];
+        }
+    }
+
+    static fromJS(data: any): DataSourceOfBlogInfo {
         data = typeof data === 'object' ? data : {};
-        let result = new MenuViewModel();
+        let result = new DataSourceOfBlogInfo();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["menuName"] = this.menuName;
-        if (Array.isArray(this.childMenuViewModel)) {
-            data["childMenuViewModel"] = [];
-            for (let item of this.childMenuViewModel)
-                data["childMenuViewModel"].push(item.toJSON());
+        if (Array.isArray(this.data)) {
+            data["data"] = [];
+            for (let item of this.data)
+                data["data"].push(item.toJSON());
         }
-        super.toJSON(data);
+        data["count"] = this.count;
         return data; 
     }
 }
 
-export interface IMenuViewModel extends IBaseViewModelOfInteger {
-    menuName: string | undefined;
-    childMenuViewModel: ChildMenuViewModel[] | undefined;
+export interface IDataSourceOfBlogInfo {
+    data: BlogInfo[] | undefined;
+    count: number;
 }
 
-export class ChildMenuViewModel extends BaseViewModelOfInteger implements IChildMenuViewModel {
-    childMenuName!: string | undefined;
-    url!: string | undefined;
-    viewId!: string | undefined;
+export class BaseSearch implements IBaseSearch {
+    startDate!: moment.Moment | undefined;
+    endDate!: moment.Moment | undefined;
+    skip!: number;
+    size!: number;
 
-    constructor(data?: IChildMenuViewModel) {
+    constructor(data?: IBaseSearch) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.startDate = _data["startDate"] ? moment(_data["startDate"].toString()) : <any>undefined;
+            this.endDate = _data["endDate"] ? moment(_data["endDate"].toString()) : <any>undefined;
+            this.skip = _data["skip"];
+            this.size = _data["size"];
+        }
+    }
+
+    static fromJS(data: any): BaseSearch {
+        data = typeof data === 'object' ? data : {};
+        let result = new BaseSearch();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        data["skip"] = this.skip;
+        data["size"] = this.size;
+        return data; 
+    }
+}
+
+export interface IBaseSearch {
+    startDate: moment.Moment | undefined;
+    endDate: moment.Moment | undefined;
+    skip: number;
+    size: number;
+}
+
+export class BlogSearch extends BaseSearch implements IBlogSearch {
+    name!: string | undefined;
+    typeId!: number;
+
+    constructor(data?: IBlogSearch) {
         super(data);
     }
 
     init(_data?: any) {
         super.init(_data);
         if (_data) {
-            this.childMenuName = _data["childMenuName"];
-            this.url = _data["url"];
-            this.viewId = _data["viewId"];
+            this.name = _data["name"];
+            this.typeId = _data["typeId"];
         }
     }
 
-    static fromJS(data: any): ChildMenuViewModel {
+    static fromJS(data: any): BlogSearch {
         data = typeof data === 'object' ? data : {};
-        let result = new ChildMenuViewModel();
+        let result = new BlogSearch();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["childMenuName"] = this.childMenuName;
-        data["url"] = this.url;
-        data["viewId"] = this.viewId;
+        data["name"] = this.name;
+        data["typeId"] = this.typeId;
         super.toJSON(data);
         return data; 
     }
 }
 
-export interface IChildMenuViewModel extends IBaseViewModelOfInteger {
-    childMenuName: string | undefined;
-    url: string | undefined;
-    viewId: string | undefined;
+export interface IBlogSearch extends IBaseSearch {
+    name: string | undefined;
+    typeId: number;
 }
 
 export class ApiException extends Error {

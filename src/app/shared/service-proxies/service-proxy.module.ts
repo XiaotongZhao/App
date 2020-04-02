@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
         HttpClientModule
       ],
     providers: [
-        ApiServiceProxies.MenuServiceProxy
+        ApiServiceProxies.BlogServiceProxy
     ]
 })
 export class ServiceProxyModule { }

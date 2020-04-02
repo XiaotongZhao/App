@@ -41,10 +41,10 @@ const NavigationItems = [
         icon: 'feather icon-home',
         children: [
           {
-            id: 'myprojectdashboard',
-            title: 'Test Page',
+            id: 'myprojectblog',
+            title: 'My blogs',
             type: 'item',
-            url: '/testpage'
+            url: '/blog'
           }
         ]
       }

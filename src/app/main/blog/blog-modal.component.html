@@ -1,0 +1,22 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static', keyboard: !saving}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <input *ngIf="blog" type="text" class="form-control" id="name" [(ngModel)]="blog.name" placeholder="Enter name">
+                </h4>
+                <button type="button" class="close" (click)="close()" [disabled]="saving">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-editor #htmlContent></app-editor>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-glow-primary btn-primary" data-toggle="tooltip"
+                    (click)="save()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
