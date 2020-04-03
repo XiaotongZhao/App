@@ -1,7 +1,8 @@
-import { Component, OnInit, Injectable, ViewChild } from '@angular/core';
-import { BlogServiceProxy, BlogSearch, BlogInfo } from 'src/app/shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { CreateOrEditBlogModalComponent } from './blog-modal.component';
+import { Component, OnInit, Injectable, ViewChild } from '@angular/core';
+import { BlogServiceProxy, BlogSearch, BlogInfo } from 'src/app/shared/service-proxies/service-proxies';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-blog',
@@ -11,19 +12,19 @@ import { CreateOrEditBlogModalComponent } from './blog-modal.component';
 
 @Injectable()
 export class BlogComponent implements OnInit {
-  datas: BlogInfo[];
-  cols: string[] = ['Type', 'Name', 'Action'];
-  first = 0;
-  loading: boolean = false;
-  blogSearch: BlogSearch = new BlogSearch();
-  totalRecords: number;
-  constructor(private blogServiceProxy: BlogServiceProxy) { }
   @ViewChild('createOrEditBlogModal', { static: true }) createOrEditBlogModal: CreateOrEditBlogModalComponent;
+  datas: BlogInfo[];
+  totalRecords: number;
+  loading: boolean;
+  blogSearch: BlogSearch = new BlogSearch();
+  cols: string[] = ['Type', 'Name', 'Action'];
+
+  constructor(private notifier: NotifierService, private blogServiceProxy: BlogServiceProxy) { }
 
   ngOnInit() {
   }
 
-  loadCarsLazy(event: LazyLoadEvent) {
+  loadCarsLazy(event?: LazyLoadEvent) {
     this.loading = true;
     if (event) {
       this.blogSearch.skip = event.first;
@@ -36,7 +37,12 @@ export class BlogComponent implements OnInit {
     });
   }
 
-  delete(id: number) {
+  delete(blog: BlogInfo) {
+    this.blogServiceProxy.deleteBlog(blog).subscribe(res => {
+      this.loading = false;
+      this.notifier.notify("success", "Action is successfull");
+      this.loadCarsLazy();
+    });
   }
 
   showBlogDetail(id: number) {

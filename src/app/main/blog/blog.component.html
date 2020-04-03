@@ -24,7 +24,7 @@
                             <button type="button" class="btn btn-glow-primary btn-primary" data-toggle="tooltip"
                                 (click)="showBlogDetail(rowData.id)">Detail</button>
                             <button type="button" class="btn btn-glow-danger btn-danger" data-toggle="tooltip"
-                                (click)="delete(rowData.id)">Delete</button>
+                                (click)="delete(rowData)">Delete</button>
                         </td>
                     </tr>
                 </ng-template>
@@ -33,3 +33,4 @@
     </div>
 </div>
 <createOrEditBlogModal #createOrEditBlogModal (modalSave)="loadCarsLazy()"></createOrEditBlogModal>
+<notifier-container></notifier-container>
