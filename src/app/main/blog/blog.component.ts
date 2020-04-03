@@ -45,7 +45,7 @@ export class BlogComponent implements OnInit {
     });
   }
 
-  showBlogDetail(id: number) {
+  showBlogDetail(id?: number) {
     this.createOrEditBlogModal.show(id);
   }
 }
