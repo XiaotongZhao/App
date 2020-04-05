@@ -22,9 +22,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   constructor(private blogServiceProxy: BlogServiceProxy) { }
 
   ngOnInit() {
-    this.blogServiceProxy.getBlogTyps().subscribe(res => {
-      this.dicKeyAndNames = res;
-    });
+    this.refresh();
   }
 
   writeValue(obj: any): void {
@@ -47,5 +45,11 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     } else {
       this.selectedDic.enable();
     }
+  }
+
+  refresh(): void {
+    this.blogServiceProxy.getBlogTyps().subscribe(res => {
+      this.dicKeyAndNames = res;
+    });
   }
 }

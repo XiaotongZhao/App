@@ -2,7 +2,8 @@ import { LazyLoadEvent } from 'primeng/api';
 import { NotifierService } from 'angular-notifier';
 import { Component, OnInit, Injectable, ViewChild } from '@angular/core';
 import { CreateOrEditBlogModalComponent } from './blog-modal.component';
-import { BlogServiceProxy, BlogSearch, BlogInfo, DicKeyAndName } from 'src/app/shared/service-proxies/service-proxies';
+import { SelectComponent } from 'src/app/theme/shared/components/select/select.component';
+import { BlogServiceProxy, BlogSearch, BlogInfo } from 'src/app/shared/service-proxies/service-proxies';
 
 @Component({
   selector: 'app-blog',
@@ -12,6 +13,7 @@ import { BlogServiceProxy, BlogSearch, BlogInfo, DicKeyAndName } from 'src/app/s
 
 @Injectable()
 export class BlogComponent implements OnInit {
+  @ViewChild('selectBlogType', { static: true }) selectBlogType: SelectComponent;
   @ViewChild('createOrEditBlogModal', { static: true }) createOrEditBlogModal: CreateOrEditBlogModalComponent;
   rows = 5;
   loading: boolean;
@@ -19,15 +21,11 @@ export class BlogComponent implements OnInit {
   first: number = 0;
   blogDetails: BlogInfo;
   totalRecords: number;
-  dicKeyAndName: Array<DicKeyAndName> = [];
   blogSearch: BlogSearch = { typeId: '0' } as BlogSearch;
 
   constructor(private notifier: NotifierService, private blogServiceProxy: BlogServiceProxy) { }
 
   ngOnInit() {
-    this.blogServiceProxy.getBlogTyps().subscribe(res => {
-      this.dicKeyAndName = res;
-    });
   }
 
   loadCarsLazy(event?: LazyLoadEvent) {

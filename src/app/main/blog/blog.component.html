@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-sm-12">
-        <app-card cardTitle="Blog" *ngIf="!blogDetails">
+        <app-card cardTitle="Blog" [hidden]="blogDetails">
             <div class="row">
                 <div class="col-md-2">
-                    <app-select [title]="'Select Blog Type'" [defaultValue]="'0'" [(ngModel)]="blogSearch.typeId">
+                    <app-select #selectBlogType [title]="'Select Blog Type'" [defaultValue]="'0'" [(ngModel)]="blogSearch.typeId">
                     </app-select>
                 </div>
                 <div class="col-md-7">
@@ -66,5 +66,5 @@
         </app-card>
     </div>
 </div>
-<createOrEditBlogModal #createOrEditBlogModal (modalSave)="loadCarsLazy()"></createOrEditBlogModal>
+<createOrEditBlogModal #createOrEditBlogModal (modalSave)="loadCarsLazy();selectBlogType.refresh();"></createOrEditBlogModal>
 <notifier-container></notifier-container>
