@@ -27,8 +27,8 @@ export class BlogServiceProxy {
         this.baseUrl = baseUrl ? baseUrl : "https://localhost:5050";
     }
 
-    createBlogInfo(blogInfo: BlogInfo): Observable<void> {
-        let url_ = this.baseUrl + "/api/Blog/CreateBlogInfo";
+    createOrUpdateBlog(blogInfo: BlogInfo): Observable<void> {
+        let url_ = this.baseUrl + "/api/Blog/CreateOrUpdateBlog";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(blogInfo);
@@ -43,11 +43,11 @@ export class BlogServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateBlogInfo(response_);
+            return this.processCreateOrUpdateBlog(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateBlogInfo(<any>response_);
+                    return this.processCreateOrUpdateBlog(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -56,7 +56,7 @@ export class BlogServiceProxy {
         }));
     }
 
-    protected processCreateBlogInfo(response: HttpResponseBase): Observable<void> {
+    protected processCreateOrUpdateBlog(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -73,58 +73,6 @@ export class BlogServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
-    }
-
-    updateBlogInfo(blogInfo: BlogInfo): Observable<number> {
-        let url_ = this.baseUrl + "/api/Blog/UpdateBlogInfo";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(blogInfo);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",			
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateBlogInfo(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUpdateBlogInfo(<any>response_);
-                } catch (e) {
-                    return <Observable<number>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<number>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processUpdateBlogInfo(response: HttpResponseBase): Observable<number> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<number>(<any>null);
     }
 
     getBlogInfos(blogSearch: BlogSearch): Observable<DataSourceOfBlogInfo> {
@@ -179,7 +127,7 @@ export class BlogServiceProxy {
         return _observableOf<DataSourceOfBlogInfo>(<any>null);
     }
 
-    getBlogTyps(): Observable<{ [key: string]: string; }> {
+    getBlogTyps(): Observable<DicKeyAndName[]> {
         let url_ = this.baseUrl + "/api/Blog/GetBlogTyps";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -191,21 +139,21 @@ export class BlogServiceProxy {
             })
         };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processGetBlogTyps(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
                     return this.processGetBlogTyps(<any>response_);
                 } catch (e) {
-                    return <Observable<{ [key: string]: string; }>><any>_observableThrow(e);
+                    return <Observable<DicKeyAndName[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<{ [key: string]: string; }>><any>_observableThrow(response_);
+                return <Observable<DicKeyAndName[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetBlogTyps(response: HttpResponseBase): Observable<{ [key: string]: string; }> {
+    protected processGetBlogTyps(response: HttpResponseBase): Observable<DicKeyAndName[]> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -216,12 +164,10 @@ export class BlogServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200) {
-                result200 = {} as any;
-                for (let key in resultData200) {
-                    if (resultData200.hasOwnProperty(key))
-                        result200![key] = resultData200[key];
-                }
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(DicKeyAndName.fromJS(item));
             }
             return _observableOf(result200);
             }));
@@ -230,7 +176,7 @@ export class BlogServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<{ [key: string]: string; }>(<any>null);
+        return _observableOf<DicKeyAndName[]>(<any>null);
     }
 
     getBlogById(id: number | undefined): Observable<BlogInfo> {
@@ -563,7 +509,7 @@ export interface IBaseSearch {
 
 export class BlogSearch extends BaseSearch implements IBlogSearch {
     name!: string | undefined;
-    typeId!: number;
+    typeId!: string | undefined;
 
     constructor(data?: IBlogSearch) {
         super(data);
@@ -595,7 +541,47 @@ export class BlogSearch extends BaseSearch implements IBlogSearch {
 
 export interface IBlogSearch extends IBaseSearch {
     name: string | undefined;
-    typeId: number;
+    typeId: string | undefined;
+}
+
+export class DicKeyAndName implements IDicKeyAndName {
+    key!: number;
+    name!: string | undefined;
+
+    constructor(data?: IDicKeyAndName) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.key = _data["key"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): DicKeyAndName {
+        data = typeof data === 'object' ? data : {};
+        let result = new DicKeyAndName();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface IDicKeyAndName {
+    key: number;
+    name: string | undefined;
 }
 
 export class ApiException extends Error {

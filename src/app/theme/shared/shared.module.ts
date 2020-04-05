@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-
-import {BreadcrumbModule, CardModule} from './components';
-import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {ClickOutsideModule} from 'ng-click-outside';
+import { CommonModule } from '@angular/common';
+import {BreadcrumbModule, CardModule} from './components';
+import { SelectModule } from './components/select/select.module';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { SelectComponent } from './components/select/select.component';
+import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -12,6 +13,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
   imports: [
+    SelectModule,
     CommonModule,
     PerfectScrollbarModule,
     FormsModule,
@@ -21,6 +23,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ClickOutsideModule
   ],
   exports: [
+    SelectModule,
     CommonModule,
     PerfectScrollbarModule,
     FormsModule,

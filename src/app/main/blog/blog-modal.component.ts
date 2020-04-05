@@ -45,26 +45,30 @@ export class CreateOrEditBlogModalComponent {
             ['fontSize']
         ]
     };
+
     constructor(
         private notifier: NotifierService,
         private blogServiceProxy: BlogServiceProxy
     ) {
     }
 
-    async show(id: number) {
-        this.blog = id ? await this.blogServiceProxy.getBlogById(id).toPromise() : new BlogInfo();
+    show(id: number) {
+        if (id) {
+            this.blogServiceProxy.getBlogById(id).subscribe(res => {
+                this.blog = res;
+            });
+        } else {
+            this.blog = new BlogInfo();
+        }
         this.modal.show();
     }
 
-    async save() {
-        if (this.blog.id) {
-            await this.blogServiceProxy.updateBlogInfo(this.blog).toPromise();
-        } else {
-            await this.blogServiceProxy.createBlogInfo(this.blog).toPromise();
-        }
-        this.notifier.notify("success", "Action is successfull");
-        this.modalSave.emit(null);
-        this.close();
+    save() {
+        this.blogServiceProxy.createOrUpdateBlog(this.blog).subscribe(res => {
+            this.notifier.notify("success", "Action is successfull");
+            this.modalSave.emit(null);
+            this.close();
+        });
     }
 
     close(): void {

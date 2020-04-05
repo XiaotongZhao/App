@@ -4,7 +4,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    <input type="text" class="form-control" id="name" [(ngModel)]="blog.name" placeholder="Enter name">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="name" [(ngModel)]="blog.name"
+                                placeholder="Enter blog name">
+
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="typeName" [(ngModel)]="blog.typeName"
+                                placeholder="Enter type name">
+                        </div>
+                    </div>
                 </h4>
                 <button type="button" class="close" (click)="close()" [disabled]="saving">
                     <span aria-hidden="true">&times;</span>
@@ -15,7 +25,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-glow-primary btn-primary" data-toggle="tooltip"
-                    (click)="save()">Save</button>
+                    (click)="save()"><i class="fa fa-save"></i>Save</button>
             </div>
         </div>
     </div>
