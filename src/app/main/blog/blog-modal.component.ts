@@ -1,8 +1,8 @@
 import { ModalDirective } from 'ngx-bootstrap';
 import { NotifierService } from "angular-notifier";
-import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Component, Output, ViewChild, EventEmitter } from '@angular/core';
 import { BlogServiceProxy, BlogInfo } from 'src/app/shared/service-proxies/service-proxies';
+import { AngularEditorConfig } from 'src/app/theme/shared/components/angular-editor/config';
 @Component({
     selector: 'createOrEditBlogModal',
     templateUrl: './blog-modal.component.html'
