@@ -45,6 +45,12 @@ const NavigationItems = [
             title: 'My blogs',
             type: 'item',
             url: '/blog'
+          },
+          {
+            id: 'myprojectalgorithms',
+            title: 'Algorithms',
+            type: 'item',
+            url: '/algorithms'
           }
         ]
       }

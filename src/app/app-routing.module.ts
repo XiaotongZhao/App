@@ -42,6 +42,10 @@ const routes: Routes = [
       {
         path: 'blog',
         loadChildren: './main/blog/blog.module#BlogModule'
+      },
+      {
+        path: 'algorithms',
+        loadChildren: './main/algorithms/algorithms.module#AlgorithmsModule'
       }
     ]
   },
