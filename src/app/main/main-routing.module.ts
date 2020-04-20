@@ -8,6 +8,10 @@ const routes: Routes = [
       {
         path: 'blog',
         loadChildren: './blog/blog.module#BlogModule'
+      },
+      {
+        path: 'algorithms',
+        loadChildren: './algorithms/algorithms.module#AlgorithmsModule'
       }
     ]
   }
