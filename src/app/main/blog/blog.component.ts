@@ -55,7 +55,9 @@ export class BlogComponent implements OnInit {
   }
 
   read(id: number) {
-    this.blogDetails = this.datas.filter(data => data.id === id)[0];
+    this.blogServiceProxy.getBlogById(id).subscribe(res => {
+      this.blogDetails = res;
+    });
   }
 
   showBlogDetail(id?: number) {
